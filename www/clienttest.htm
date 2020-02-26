@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<style>
+		div {
+			border: 1px solid black;
+		}
+	</style>
+	<script src="jquery-3.2.1.min.js" type="text/javascript"></script>
+	<script>
+		var restserviceUrl = "backend/";
+
+		$(function()
+		{
+			checkLogin();
+			// checkApiGetUser()
+			// checkApiGetWish(1)
+			// checkApiInsert
+			// checkApiUpdate
+			// checkApiGetWish(2)
+			// checkApiDelete
+			// checkApiGetWish(3)
+		});
+
+		function checkLogin()
+		{
+			$.ajax({
+				url: restserviceUrl + "login.php",
+				type: "post",
+				data: JSON.stringify({ name: "Anton", password: "a" }),
+				contentType: "text/plain",
+				error: function(){
+					$("body").append("checkLogin fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					var token = JSON.parse(result).token;
+					$("body").append("checkLogin erfolgreich<br/>")
+							 .append($("<div/>")
+							 		 .html(token));
+					checkApiGetUser(token);
+				}
+			});
+		}
+
+		function checkApiGetUser(token)
+		{
+			$.ajax({
+				url: restserviceUrl + "api.php/user",
+				type: "get",
+				headers: {
+					"Authorization": token
+				},
+				dataType: "json",
+				error: function(){
+					$("body").append("checkApiGetUser fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					$("body").append("checkApiGetUser erfolgreich:<br/>")
+							 .append($("<div/>")
+							 		 .html(result.content.length + " users"));
+					checkApiGetWish(token, 1);
+				}
+			});
+		}
+
+		function checkApiGetWish(token, count)
+		{
+			$.ajax({
+				url: restserviceUrl + "api.php/wish",
+				type: "get",
+				headers: {
+					"Authorization": token
+				},
+				dataType: "json",
+				error: function(){
+					$("body").append("checkApiGetWish(" + count + ") fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					$("body").append("checkApiGetWish(" + count + ") erfolgreich:<br/>")
+							 .append($("<div/>")
+							 		 .html(result.content.length + " wishes"));
+					if(count === 1)
+						checkApiInsert(token);
+					else if(count === 2)
+						checkApiDelete(token);
+				}
+			});
+		}
+
+		function checkApiInsert(token)
+		{
+			$.ajax({
+				url: restserviceUrl + "api.php/wish",
+				type: "post",
+				data: JSON.stringify({ status: "A", wisher: 1, description: "descr" }),
+				headers: {
+					"Authorization": token
+				},
+				dataType: "json",
+				error: function(){
+					$("body").append("checkApiInsert fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					$("body").append("checkApiInsert erfolgreich:<br/>")
+							 .append($("<div/>")
+							 		 .html("new id: " + result.content));
+					checkApiUpdate(token, result.content);
+				}
+			});
+		}
+
+		function checkApiUpdate(token, wishId)
+		{
+			$.ajax({
+				url: restserviceUrl + "api.php/wish/" + wishId,
+				type: "put",
+				data: JSON.stringify({ wisher: 1, description: "changed" }),
+				headers: {
+					"Authorization": token
+				},
+				dataType: "json",
+				error: function(){
+					$("body").append("checkApiUpdate fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					$("body").append("checkApiUpdate erfolgreich:<br/>")
+							 .append($("<div/>")
+							 		 .html("changed id: " + result.content));
+					checkApiGetWish(token, 2);
+				}
+			});
+		}
+
+		function checkApiDelete(token)
+		{
+			$.ajax({
+				url: restserviceUrl + "api.php/wish/description/changed",
+				type: "delete",
+				headers: {
+					"Authorization": token
+				},
+				dataType: "json",
+				error: function(){
+					$("body").append("checkApiDelete fehlgeschlagen<br/>");
+				},
+				success: function(result){
+					$("body").append("checkApiDelete erfolgreich:<br/>")
+							 .append($("<div/>")
+							 		 .html("deleted " + result.content + " rows"));
+					checkApiGetWish(token, 3);
+				}
+			});
+		}
+
+	</script>
+</head>
+<body>
+</body>
+</html>

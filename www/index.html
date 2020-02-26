@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?php	$pagename = "radio.php";
+?>		
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Drehender Würfel</title>
+<style>
+	svn line {
+		stroke: black;
+		stroke-width: 1;
+	}
+</style>
+<script language="javascript" type="text/javascript">
+	function comp(pm, fix, x, y, z)
+	{
+		var pm1 = pm.charAt(0);
+		var pm2 = pm.charAt(1);
+		var pm3 = pm.charAt(2);
+		var result = fix;
+		if(pm1 == '+')
+			result += x;
+		else
+			result -= x;
+		if(pm2 == '+')
+			result += y;
+		else
+			result -= y;
+		if(pm3 == '+')
+			result += z;
+		else
+			result -= z;
+		return result;
+	}
+	
+	function next()
+	{
+		var counter = document.getElementById("counter");
+		var deg = counter.innerHTML;
+		if(deg < 200)
+			deg++;
+		else
+			deg = 0;
+        counter.innerHTML = deg;
+        
+		var factor = Math.PI / 100 * deg;
+		var sin = Math.sin(factor);
+		var cos = Math.cos(factor);
+
+		var e1x = 300 + 87 * sin;
+		var e1y = 150 + 50 * cos;
+		var e2x = 300 + 87 * cos;
+		var e2y = 150 - 50 * sin;
+		var e3x = 300 - 87 * sin;
+		var e3y = 150 - 50 * cos;
+		var e4x = 300 - 87 * cos;
+		var e4y = 150 + 50 * sin;
+		
+		var e5x = e1x;
+		var e5y = e1y + 100;
+		var e6x = e2x;
+		var e6y = e2y + 100;
+		var e7x = e3x;
+		var e7y = e3y + 100;
+		var e8x = e4x;
+		var e8y = e4y + 100;
+
+		var x1 = 87 *(-sin +cos);
+		var x2 = 50 *(-sin -cos);
+		var y1 = 87 *( sin +cos);
+		var y2 = 50 *(-sin +cos);
+		var z1 = 0;
+		var z2 = -100;
+        var x = document.getElementById("x");
+        x.setAttribute("x2", 300 + x1);
+        x.setAttribute("y2", 200 + x2);
+        var y = document.getElementById("y");
+        y.setAttribute("x2", 300 + y1);
+        y.setAttribute("y2", 200 + y2);
+        var y = document.getElementById("z");
+
+ 		var circle;
+		for(var i = 1; i <= 8; i++)
+		{
+			circle = document.getElementById("circle" + i);
+			var i3 = i % 2;
+			var i2 = ((i - i3) / 2) % 2;
+			var i1 = (i - i3)
+			
+			var code = "-++";
+			circle.setAttribute("cx", comp(code, 300, x1/2, y1/2, z1/2	));
+			circle.setAttribute("cy", comp(code, 200, x2/2, y2/2, z2/2	));
+		}
+		circle = document.getElementById("circle1");
+        circle.setAttribute("cx", e1x);//comp("-++", 300, x1/2, y1/2, z1/2	));
+        circle.setAttribute("cy", e1y);//comp("-++", 200, x2/2, y2/2, z2/2	));
+		circle = document.getElementById("circle2");
+        circle.setAttribute("cx", e2x);
+        circle.setAttribute("cy", e2y);
+		circle = document.getElementById("circle3");
+        circle.setAttribute("cx", e3x);
+        circle.setAttribute("cy", e3y);
+		circle = document.getElementById("circle4");
+        circle.setAttribute("cx", e4x);
+        circle.setAttribute("cy", e4y);
+
+		circle = document.getElementById("circle5");
+        circle.setAttribute("cx", e5x);
+        circle.setAttribute("cy", e5y);
+		circle = document.getElementById("circle6");
+        circle.setAttribute("cx", e6x);
+        circle.setAttribute("cy", e6y);
+		circle = document.getElementById("circle7");
+        circle.setAttribute("cx", e7x);
+        circle.setAttribute("cy", e7y);
+		circle = document.getElementById("circle8");
+        circle.setAttribute("cx", e8x);
+        circle.setAttribute("cy", e8y);
+        
+        var line1 = document.getElementById("line1");
+        line1.setAttribute("x1", e1x);
+        line1.setAttribute("y1", e1y);
+        line1.setAttribute("x2", e2x);
+        line1.setAttribute("y2", e2y);
+        var line2 = document.getElementById("line2");
+        line2.setAttribute("x1", e2x);
+        line2.setAttribute("y1", e2y);
+        line2.setAttribute("x2", e3x);
+        line2.setAttribute("y2", e3y);
+        var line3 = document.getElementById("line3");
+        line3.setAttribute("x1", e3x);
+        line3.setAttribute("y1", e3y);
+        line3.setAttribute("x2", e4x);
+        line3.setAttribute("y2", e4y);
+        var line4 = document.getElementById("line4");
+        line4.setAttribute("x1", e4x);
+        line4.setAttribute("y1", e4y);
+        line4.setAttribute("x2", e1x);
+        line4.setAttribute("y2", e1y);
+
+        var line5 = document.getElementById("line5");
+        line5.setAttribute("x1", e5x);
+        line5.setAttribute("y1", e5y);
+        line5.setAttribute("x2", e6x);
+        line5.setAttribute("y2", e6y);
+        var line6 = document.getElementById("line6");
+        line6.setAttribute("x1", e6x);
+        line6.setAttribute("y1", e6y);
+        line6.setAttribute("x2", e7x);
+        line6.setAttribute("y2", e7y);
+        var line7 = document.getElementById("line7");
+        line7.setAttribute("x1", e7x);
+        line7.setAttribute("y1", e7y);
+        line7.setAttribute("x2", e8x);
+        line7.setAttribute("y2", e8y);
+        var line8 = document.getElementById("line8");
+        line8.setAttribute("x1", e8x);
+        line8.setAttribute("y1", e8y);
+        line8.setAttribute("x2", e5x);
+        line8.setAttribute("y2", e5y);
+
+        var line9 = document.getElementById("line9");
+        line9.setAttribute("x1", e1x);
+        line9.setAttribute("y1", e1y);
+        line9.setAttribute("x2", e5x);
+        line9.setAttribute("y2", e5y);
+        var line10 = document.getElementById("line10");
+        line10.setAttribute("x1", e2x);
+        line10.setAttribute("y1", e2y);
+        line10.setAttribute("x2", e6x);
+        line10.setAttribute("y2", e6y);
+        var line11 = document.getElementById("line11");
+        line11.setAttribute("x1", e3x);
+        line11.setAttribute("y1", e3y);
+        line11.setAttribute("x2", e7x);
+        line11.setAttribute("y2", e7y);
+        var line12 = document.getElementById("line12");
+        line12.setAttribute("x1", e4x);
+        line12.setAttribute("y1", e4y);
+        line12.setAttribute("x2", e8x);
+        line12.setAttribute("y2", e8y);
+		
+        /*if(deg == 25)
+        {
+        	line5.style.stroke = "gray";
+        	line7.style.stroke = "black";
+        	line11.style.stroke = "black";
+        	line10.style.stroke = "gray";
+        }
+        else if(deg == 75)
+        {
+        	line6.style.stroke = "black";
+        	line8.style.stroke = "gray";
+        	line10.style.stroke = "black";
+        	line9.style.stroke = "gray";
+        }
+        else if(deg == 125)
+        {
+        	line5.style.stroke = "black";
+        	line7.style.stroke = "gray";
+        	line9.style.stroke = "black";
+        	line12.style.stroke = "gray";
+        }
+        else if(deg == 175)
+        {
+        	line6.style.stroke = "gray";
+        	line8.style.stroke = "black";
+        	line12.style.stroke = "black";
+        	line11.style.stroke = "gray";
+        }*/
+        
+		window.setTimeout(next, 50);
+	}
+</script>
+</head>
+<body onload="next(0);">
+
+<div id="counter">0</div>
+
+<svg width="600" height="400" style="background-color:blue;">
+	<circle id="center" cx="300" cy="200" r="5" stroke="black" stroke-width="1" fill="red" />
+	<line id="x" x1="300" y1="200" x2="387" y2="250" style="stroke:yellow;stroke-width:3" />
+	<line id="y" x1="300" y1="200" x2="387" y2="150" style="stroke:yellow;stroke-width:3" />
+	<line id="z" x1="300" y1="200" x2="300" y2="100" style="stroke:yellow;stroke-width:3" />
+	
+	<ellipse cx="300" cy="150" rx="87" ry="50" style="fill:none;stroke:purple;stroke-width:1" />
+  	<circle id="circle1" cx="300" cy="100" r="5" stroke="black" stroke-width="1" fill="red" />
+	<circle id="circle2" cx="300" cy="200" r="5" stroke="black" stroke-width="1" fill="red" />
+	<circle id="circle3" cx="387" cy="150" r="5" stroke="black" stroke-width="1" fill="red" />
+ 	<circle id="circle4" cx="213" cy="150" r="5" stroke="black" stroke-width="1" fill="red" />
+	
+ 	<ellipse cx="300" cy="250" rx="87" ry="50" style="fill:none;stroke:purple;stroke-width:1" />
+	<circle id="circle5" cx="300" cy="100" r="5" stroke="black" stroke-width="1" fill="red" />
+	<circle id="circle6" cx="300" cy="200" r="5" stroke="black" stroke-width="1" fill="red" />
+	<circle id="circle7" cx="387" cy="150" r="5" stroke="black" stroke-width="1" fill="red" />
+	<circle id="circle8" cx="213" cy="150" r="5" stroke="black" stroke-width="1" fill="red" />
+	
+	<line id="line1" x1="300" y1="100" x2="387" y2="150" style="stroke:black;stroke-width:1" />
+	<line id="line2" x1="300" y1="100" x2="213" y2="150" style="stroke:black;stroke-width:1" />
+	<line id="line3" x1="300" y1="200" x2="387" y2="150" style="stroke:black;stroke-width:1" />
+	<line id="line4" x1="300" y1="200" x2="213" y2="150" style="stroke:black;stroke-width:1" />
+	
+ 	<line id="line5" x1="300" y1="200" x2="387" y2="250" style="stroke:black;stroke-width:1" />
+	<line id="line6" x1="300" y1="200" x2="213" y2="250" style="stroke:gray;stroke-width:1" />
+	<line id="line7" x1="300" y1="300" x2="387" y2="250" style="stroke:gray;stroke-width:1" />
+	<line id="line8" x1="300" y1="300" x2="213" y2="250" style="stroke:black;stroke-width:1" />
+	
+	<line id="line9" x1="387" y1="150" x2="387" y2="250" style="stroke:black;stroke-width:1" />
+	<line id="line10" x1="213" y1="150" x2="213" y2="250" style="stroke:black;stroke-width:1" />
+ 	<line id="line11" x1="300" y1="100" x2="300" y2="200" style="stroke:gray;stroke-width:1" />
+	<line id="line12" x1="300" y1="200" x2="300" y2="300" style="stroke:black;stroke-width:1" />
+</svg>
+
+</body>
+</html>
